@@ -13,6 +13,12 @@ const lessonsData = [
         time: "11.05.2024 13:00",
         maxMembers: 10,
         currentMembers: 9
+    },
+    {
+        name: "Каратэ",
+        time: "11.05.2024 16:00",
+        maxMembers: 10,
+        currentMembers: 1
     }
 ];
 
@@ -60,16 +66,16 @@ function createLesson (name, time, maxMembers, currentMembers) {
 }
 
 lessonList.addEventListener('click', function (e) {
-    
-    if (e.target.textContent == 'Записаться') {
-        const lessonItem = e.target.closest('li');
-        const lessonMaxMembers = lessonItem.querySelector('p.max');
-        const lessonCurrentMembers = lessonItem.querySelector('p.current');
-        const signUpButton = lessonItem.querySelector('button.sign');
-        const cancelButton = lessonItem.querySelector('button.cancel');
-        let current = Number(lessonCurrentMembers.textContent);
-        let max = Number(lessonMaxMembers.textContent);
 
+    const lessonItem = e.target.closest('li');
+    const lessonMaxMembers = lessonItem.querySelector('p.max');
+    const lessonCurrentMembers = lessonItem.querySelector('p.current');
+    const signUpButton = lessonItem.querySelector('button.sign');
+    const cancelButton = lessonItem.querySelector('button.cancel');
+    let current = Number(lessonCurrentMembers.textContent);
+    const max = Number(lessonMaxMembers.textContent);
+
+    if (e.target.textContent == 'Записаться') {
         if (current < max) {
             signUpButton.classList.remove('btn-secondary');
             signUpButton.classList.add('btn-warning');
@@ -85,6 +91,17 @@ lessonList.addEventListener('click', function (e) {
     
     }
 
-
-
+    if (e.target.textContent == 'Отменить запись') {
+        if (current <= 0) {
+            alert("Ошибка (число людей не может быть меньше 0)");
+        } else {
+            current -= 1;
+        lessonCurrentMembers.textContent = current;
+        alert("Вы отменили запись на занятие!");
+        if (current < max) {
+            signUpButton.classList.remove('btn-secondary');
+            signUpButton.classList.add('btn-warning');
+        }
+        }
+    }
 });
